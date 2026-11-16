@@ -130,6 +130,6 @@ Como parte de esta etapa también elaboré los siguientes elementos:
 
 Se realizaron ocho casos de prueba relacionados con el registro, consulta, edición y cambio de estado de usuarios y celdas. Todas las pruebas obtuvieron resultados aprobados.
 
-#### Link Video de Sustentación: 
+#### Link Video de Sustentación: `https://youtu.be/YIkJbHXBQaw`
 
 ---
