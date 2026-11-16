@@ -1,0 +1,112 @@
+<!-- Esta plantilla utiliza la estructura general del aplicativo -->
+{% extends "base.html" %}
+
+{% block titulo %}Inicio | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Presentación principal del panel -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">PANEL GENERAL</span>
+        <h1>Resumen del parqueadero</h1>
+        <p>Consulta el estado actual y los vehículos registrados.</p>
+    </div>
+
+    <a href="{{ url_for('entrada') }}" class="boton">
+        + Registrar entrada
+    </a>
+</div>
+
+<!-- Mostrar los indicadores principales -->
+<div class="tarjetas">
+
+    <div class="tarjeta">
+        <span class="tarjeta-titulo">Vehículos registrados</span>
+        <strong>{{ resumen.total_vehiculos }}</strong>
+        <span class="tarjeta-detalle">Total en el sistema</span>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-titulo">Vehículos parqueados</span>
+        <strong>{{ resumen.vehiculos_parqueados }}</strong>
+        <span class="tarjeta-detalle">Actualmente en el parqueadero</span>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-titulo">Celdas disponibles</span>
+        <strong>{{ resumen.celdas_disponibles }}</strong>
+        <span class="tarjeta-detalle">Espacios libres</span>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-titulo">Celdas ocupadas</span>
+        <strong>{{ resumen.celdas_ocupadas|length }}</strong>
+        <span class="tarjeta-detalle">Espacios en uso</span>
+    </div>
+
+</div>
+
+<!-- Mostrar las celdas que están ocupadas -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Estado de las celdas</h2>
+            <p>Distribución actual de los espacios del parqueadero.</p>
+        </div>
+    </div>
+
+    <div class="lista-celdas">
+        {% for numero in resumen.celdas_ocupadas %}
+            <span class="celda ocupada">{{ numero }}</span>
+        {% endfor %}
+
+        {% if not resumen.celdas_ocupadas %}
+            <p>No hay celdas ocupadas actualmente.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Mostrar el listado de vehículos registrados -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Vehículos registrados</h2>
+            <p>Información de los vehículos guardados en el sistema.</p>
+        </div>
+
+        <a href="{{ url_for('formulario_registro') }}" class="boton boton-secundario">
+            Registrar vehículo
+        </a>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Color</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for vehiculo in vehiculos %}
+                    <tr>
+                        <td><strong>{{ vehiculo[0] }}</strong></td>
+                        <td>{{ vehiculo[1] or "-" }}</td>
+                        <td>{{ vehiculo[2] or "-" }}</td>
+                        <td>{{ vehiculo[3] or "-" }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Todavía no hay vehículos registrados.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

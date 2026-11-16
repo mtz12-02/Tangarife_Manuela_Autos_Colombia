@@ -1,0 +1,90 @@
+<!-- Utilizar la estructura general del aplicativo -->
+{% extends "base.html" %}
+
+{% block titulo %}Registrar vehículo | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Encabezado de la página -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">GESTIÓN DE VEHÍCULOS</span>
+        <h1>Registrar vehículo</h1>
+        <p>Ingresa los datos del vehículo que deseas agregar al sistema.</p>
+    </div>
+</div>
+
+<!-- Formulario para guardar un vehículo -->
+<div class="panel panel-formulario">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Información del vehículo</h2>
+            <p>Los campos marcados son obligatorios.</p>
+        </div>
+    </div>
+
+    <!-- Formulario para registrar los datos -->
+    <form action="{{ url_for('registrar') }}" method="POST" class="formulario" autocomplete="off">
+
+        <div class="grupo-campos">
+            <div class="campo">
+                <label for="placa">Placa *</label>
+                <input
+                    type="text"
+                    id="placa"
+                    name="placa"
+                    placeholder="Ej. ABC123"
+                    maxlength="10"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="marca">Marca</label>
+                <input
+                    type="text"
+                    id="marca"
+                    name="marca"
+                    placeholder="Ej. Chevrolet"
+                    maxlength="50"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="modelo">Modelo</label>
+                <input
+                    type="text"
+                    id="modelo"
+                    name="modelo"
+                    placeholder="Ej. Spark"
+                    maxlength="50"
+                >
+            </div>
+
+            <div class="campo">
+                <label for="color">Color</label>
+                <input
+                    type="text"
+                    id="color"
+                    name="color"
+                    placeholder="Ej. Gris"
+                    maxlength="30"
+                >
+            </div>
+        </div>
+
+        <!-- Botones para guardar o cancelar el registro -->
+        <div class="acciones-formulario">
+            <a href="{{ url_for('inicio') }}" class="boton boton-secundario">
+                Cancelar
+            </a>
+
+            <button type="submit" class="boton">
+                Guardar vehículo
+            </button>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

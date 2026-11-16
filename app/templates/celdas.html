@@ -1,0 +1,180 @@
+ <!-- Utilizar la estructura general del aplicativo -->
+{% extends "base.html" %}
+
+{% block titulo %}Gestión de celdas | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Encabezado de la página -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">GESTIÓN DE CELDAS</span>
+        <h1>Administración de celdas</h1>
+        <p>Consulta, registra y administra los espacios del parqueadero.</p>
+    </div>
+</div>
+
+<!-- Mostrar el resumen de las celdas -->
+<div class="tarjetas">
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">▦</span>
+        <div class="tarjeta-etiqueta">Total de celdas</div>
+        <div class="tarjeta-numero">{{ celdas|length }}</div>
+        <div class="tarjeta-detalle">Espacios registrados</div>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">✓</span>
+        <div class="tarjeta-etiqueta">Disponibles</div>
+        <div class="tarjeta-numero">{{ total_disponibles }}</div>
+        <div class="tarjeta-detalle">Listas para recibir vehículos</div>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">▣</span>
+        <div class="tarjeta-etiqueta">Ocupadas</div>
+        <div class="tarjeta-numero">{{ total_ocupadas }}</div>
+        <div class="tarjeta-detalle">Actualmente en uso</div>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">−</span>
+        <div class="tarjeta-etiqueta">Fuera de servicio</div>
+        <div class="tarjeta-numero">{{ total_inactivas }}</div>
+        <div class="tarjeta-detalle">Celdas deshabilitadas</div>
+    </div>
+
+</div>
+
+<!-- Formulario para registrar una nueva celda -->
+<div class="panel">
+
+    <div class="panel-encabezado">
+        <div>
+            <h2>Registrar nueva celda</h2>
+            <p>Agrega un nuevo espacio al parqueadero.</p>
+        </div>
+    </div>
+
+    <form action="{{ url_for('nueva_celda') }}" method="POST" class="formulario">
+
+        <div class="grupo-campos">
+            <div class="campo">
+                <label for="numero">Número de celda *</label>
+                <input
+                    type="text"
+                    id="numero"
+                    name="numero"
+                    placeholder="Ej. C11"
+                    maxlength="10"
+                    required
+                >
+            </div>
+        </div>
+
+        <button type="submit" class="boton">
+            + Registrar celda
+        </button>
+
+    </form>
+
+</div>
+
+<!-- Mostrar las celdas registradas -->
+<div class="panel">
+
+    <div class="panel-encabezado">
+        <div>
+            <h2>Directorio de celdas</h2>
+            <p>Consulta el estado y administra cada espacio.</p>
+        </div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Estado de ocupación</th>
+                    <th>Estado del servicio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for celda in celdas %}
+                <tr>
+
+                    <td><strong>{{ celda[1] }}</strong></td>
+
+                    <td>
+                        {% if celda[2] %}
+                            <span class="estado estado-finalizado">Ocupada</span>
+                        {% else %}
+                            <span class="estado estado-activo">Libre</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if celda[3] %}
+                            <span class="estado estado-activo">Activa</span>
+                        {% else %}
+                            <span class="estado estado-finalizado">Inactiva</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+
+                        <!-- No permitir desactivar una celda que tiene un vehículo -->
+                        {% if celda[2] %}
+                            <span class="estado estado-finalizado">En uso</span>
+
+                        {% elif celda[3] %}
+                            <form
+                                action="{{ url_for('estado_celda', id_celda=celda[0]) }}"
+                                method="POST"
+                                style="display: inline;"
+                            >
+                                <input type="hidden" name="activa" value="false">
+
+                                <button type="submit" class="boton boton-secundario">
+                                    Desactivar
+                                </button>
+                            </form>
+
+                        {% else %}
+                            <form
+                                action="{{ url_for('estado_celda', id_celda=celda[0]) }}"
+                                method="POST"
+                                style="display: inline;"
+                            >
+                                <input type="hidden" name="activa" value="true">
+
+                                <button type="submit" class="boton">
+                                    Activar
+                                </button>
+                            </form>
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 30px;">
+                        Todavía no hay celdas registradas.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

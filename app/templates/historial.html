@@ -1,0 +1,76 @@
+<!-- Utilizar la estructura general del aplicativo -->
+{% extends "base.html" %}
+
+{% block titulo %}Historial | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Encabezado de la página -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">REGISTRO DE ACTIVIDAD</span>
+        <h1>Historial de movimientos</h1>
+        <p>Consulta los registros de entrada, salida y novedades del parqueadero.</p>
+    </div>
+</div>
+
+<!-- Mostrar el historial de movimientos -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Movimientos registrados</h2>
+            <p>Consulta la actividad registrada en el sistema.</p>
+        </div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Celda</th>
+                    <th>Fecha de entrada</th>
+                    <th>Fecha de salida</th>
+                    <th>Novedades</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for movimiento in movimientos %}
+                    <tr>
+                        <td><strong>{{ movimiento[1] }}</strong></td>
+                        <td>{{ movimiento[2] }}</td>
+
+                        <td>
+                            {{ movimiento[3].strftime('%d/%m/%Y %H:%M') if movimiento[3] else '-' }}
+                        </td>
+
+                        <td>
+                            {{ movimiento[4].strftime('%d/%m/%Y %H:%M') if movimiento[4] else 'Pendiente' }}
+                        </td>
+
+                        <td class="texto-novedad">
+                            {{ movimiento[5] }}
+                        </td>
+
+                        <td>
+                            {% if movimiento[4] %}
+                                <span class="estado finalizado">Finalizado</span>
+                            {% else %}
+                                <span class="estado activo">En parqueadero</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                {% else %}
+                    <tr>
+                        <td colspan="6">Todavía no hay movimientos registrados.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

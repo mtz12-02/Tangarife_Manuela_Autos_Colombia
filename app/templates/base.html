@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Configurar los datos básicos de la página -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Definir el título de cada sección -->
+    <title>{% block titulo %}Autos Colombia{% endblock %}</title>
+
+    <!-- Conectar los estilos y las fuentes de la aplicación -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Organizar la estructura general de la aplicación -->
+    <div class="aplicacion">
+
+        <!-- Mostrar el menú lateral de navegación -->
+        <aside class="sidebar">
+
+            <!-- Mostrar el nombre y la identificación del sistema -->
+            <div class="marca">
+                <div class="marca-icono">A</div>
+                <div>
+                    <h2>Autos Colombia</h2>
+                    <span>GESTIÓN DE PARQUEADERO</span>
+                </div>
+            </div>
+
+            <!-- Mostrar las opciones principales del menú -->
+            <div class="menu-titulo">MENÚ PRINCIPAL</div>
+
+            <nav class="menu">
+
+                <!-- Ir al panel principal -->
+                <a href="{{ url_for('inicio') }}"
+                   class="{% if request.endpoint == 'inicio' %}activo{% endif %}">
+                    <span>⌂</span> Inicio
+                </a>
+
+                <!-- Abrir el formulario de registro de vehículos -->
+                <a href="{{ url_for('formulario_registro') }}"
+                   class="{% if request.endpoint == 'formulario_registro' %}activo{% endif %}">
+                    <span>＋</span> Registrar vehículo
+                </a>
+
+                <!-- Abrir el registro de entradas -->
+                <a href="{{ url_for('entrada') }}"
+                   class="{% if request.endpoint == 'entrada' %}activo{% endif %}">
+                    <span>↘</span> Registrar entrada
+                </a>
+
+                <!-- Abrir el registro de salidas -->
+                <a href="{{ url_for('salida') }}"
+                   class="{% if request.endpoint == 'salida' %}activo{% endif %}">
+                    <span>↗</span> Registrar salida
+                </a>
+
+                <!-- Abrir el registro de novedades -->
+                <a href="{{ url_for('novedades') }}"
+                   class="{% if request.endpoint == 'novedades' %}activo{% endif %}">
+                    <span>◇</span> Novedades
+                </a>
+
+                <!-- Consultar el historial de movimientos -->
+                <a href="{{ url_for('historial') }}"
+                   class="{% if request.endpoint == 'historial' %}activo{% endif %}">
+                    <span>▤</span> Historial
+                </a>
+
+                <!-- Consultar y administrar los usuarios -->
+                <a href="{{ url_for('usuarios') }}"
+                   class="{% if request.endpoint in ['usuarios', 'nuevo_usuario', 'editar_usuario'] %}activo{% endif %}">
+                    <span>♙</span> Usuarios
+                </a>
+
+                <!-- Consultar y administrar las celdas -->
+                <a href="{{ url_for('celdas') }}"
+                   class="{% if request.endpoint in ['celdas', 'nueva_celda', 'estado_celda'] %}activo{% endif %}">
+                    <span>▦</span> Celdas
+                </a>
+
+            </nav>
+
+            <!-- Mostrar el estado del sistema -->
+            <div class="sidebar-pie">
+                <span class="estado-punto"></span>
+                Sistema operativo
+            </div>
+
+        </aside>
+
+        <!-- Organizar el contenido principal de la aplicación -->
+        <main class="contenido">
+
+            <!-- Mostrar la barra superior y los datos del administrador -->
+            <header class="barra-superior">
+                <div>
+                    <span class="fecha-texto">AUTOS COLOMBIA</span>
+                    <p>Panel de administración</p>
+                </div>
+
+                <div class="usuario">
+                    <div class="usuario-icono">AC</div>
+                    <div>
+                        <strong>Administrador</strong>
+                        <span>Gestión del parqueadero</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mostrar los mensajes y el contenido de cada sección -->
+            <section class="contenido-principal">
+
+                <!-- Mostrar las notificaciones de las operaciones realizadas -->
+                {% with mensajes = get_flashed_messages(with_categories=true) %}
+                    {% if mensajes %}
+                        {% for categoria, mensaje in mensajes %}
+                            <div class="alerta {{ categoria }}">
+                                {{ mensaje }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Insertar el contenido de cada página -->
+                {% block contenido %}{% endblock %}
+
+            </section>
+
+            <!-- Mostrar el pie de página -->
+            <footer class="pie-pagina">
+                Autos Colombia · Sistema de gestión de parqueadero
+            </footer>
+
+        </main>
+
+    </div>
+
+</body>
+</html>
