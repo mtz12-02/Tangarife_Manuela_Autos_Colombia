@@ -10,6 +10,111 @@ El proyecto se desarrolla por etapas, incorporando nuevas funcionalidades y mejo
 
 ---
 
+# Evidencia de Aprendizaje 3 – Diseño del Sistema de Información: Iteración 3
+
+## Descripción
+
+En esta tercera etapa continué ampliando las funcionalidades de Autos Colombia mediante la incorporación del módulo de gestión de pagos. Mi propósito fue complementar los módulos desarrollados anteriormente y facilitar el control de las mensualidades de los usuarios del parqueadero.
+
+## Funcionalidades incorporadas
+
+**Gestión de pagos**
+
+- Consulta de los usuarios activos para registrar sus mensualidades.
+- Registro de pagos asociados a cada usuario.
+- Selección del mes y año correspondiente a la mensualidad.
+- Selección del método de pago: efectivo, transferencia o tarjeta.
+- Asignación automática del valor de la mensualidad de $150.000 COP.
+- Registro automático de la fecha y hora del pago.
+- Validación para impedir pagos duplicados del mismo usuario en un período.
+- Consulta de mensualidades pagadas y pendientes.
+- Consulta del historial individual de pagos.
+- Visualización general de los pagos registrados.
+
+## Actualización de la base de datos
+
+Para esta iteración incorporé la tabla `pagos` a la base de datos `autos_colombia`, relacionada directamente con la tabla `usuarios`.
+
+Esta tabla permite almacenar el usuario, el mes, el año, el valor de la mensualidad, el método de pago y la fecha de registro. También se establecieron restricciones para evitar pagos duplicados y garantizar que el valor corresponda a la mensualidad definida.
+
+Con esta actualización, la base de datos queda conformada por seis tablas: `usuarios`, `vehiculos`, `celdas`, `movimientos`, `novedades` y `pagos`.
+
+## Diseño y documentación
+
+Como parte de esta etapa elaboré los siguientes elementos:
+
+- Diagrama de secuencia para el registro de pagos.
+- Actualización del diagrama de componentes del sistema.
+- Actualización del script SQL de creación de la base de datos.
+- Actualización de la documentación del proyecto.
+
+## Pruebas realizadas
+
+Se realizaron pruebas funcionales para verificar el comportamiento del módulo de gestión de pagos. Entre ellas se encuentran:
+
+- Registro de una mensualidad para un usuario existente.
+- Validación para impedir el registro duplicado de un mismo período.
+- Registro de diferentes mensualidades para un mismo usuario.
+- Actualización del estado de las mensualidades a pagado.
+- Identificación de mensualidades pendientes de otros usuarios.
+- Consulta del historial individual de pagos.
+
+Las pruebas permitieron comprobar que los pagos quedan asociados al usuario correspondiente y que el sistema diferencia correctamente los períodos pagados de los pendientes.
+
+---
+
+# Evidencia de Aprendizaje 2 – Diseño del Sistema de Información: Iteración 2
+
+## Descripción
+
+En esta segunda etapa amplié las funcionalidades de Autos Colombia mediante la incorporación de los módulos de gestión de usuarios y gestión de celdas. El objetivo fue complementar las operaciones desarrolladas en la primera iteración y facilitar la administración de la información del parqueadero.
+
+## Funcionalidades incorporadas
+
+**Gestión de usuarios**
+
+- Registro de usuarios con sus datos personales y de contacto.
+- Consulta del listado de usuarios registrados.
+- Edición de la información de los usuarios.
+- Activación y desactivación de usuarios.
+- Validación para evitar el registro de documentos duplicados.
+
+**Gestión de celdas**
+
+- Registro de nuevas celdas.
+- Consulta de las celdas registradas.
+- Identificación de celdas disponibles, ocupadas e inactivas.
+- Activación y desactivación de celdas.
+- Validación para impedir la desactivación de celdas que tengan un vehículo estacionado.
+
+## Actualización de la base de datos
+
+Para esta iteración amplié la estructura de la base de datos `autos_colombia` mediante la incorporación de la tabla `usuarios` y los ajustes necesarios para relacionar los usuarios con los vehículos y administrar el estado de funcionamiento de las celdas.
+
+La base de datos conserva las tablas y funcionalidades desarrolladas durante la primera iteración.
+
+## Diseño y documentación
+
+Como parte de esta etapa también elaboré los siguientes elementos:
+
+- Requisitos funcionales y no funcionales.
+- Historias de usuario y criterios de aceptación.
+- Diagramas UML de casos de uso para la gestión de usuarios y celdas.
+- Diagramas de secuencia correspondientes a las dos iteraciones.
+- Diagrama de componentes del sistema.
+- Mockups de las interfaces de gestión de usuarios y celdas.
+- Plan de pruebas para verificar las nuevas funcionalidades.
+
+## Pruebas realizadas
+
+Se realizaron ocho casos de prueba relacionados con el registro, consulta, edición y cambio de estado de usuarios y celdas. Todas las pruebas obtuvieron resultados aprobados.
+
+---
+
+#### Link Video de Sustentación: `https://youtu.be/YIkJbHXBQaw`
+
+---
+
 # Evidencia de Aprendizaje 1 – Diseño del Sistema de Información: Iteración 1
 
 ## Descripción
@@ -81,57 +186,3 @@ python app/app.py
 Después de iniciar el servidor, el sistema se puede consultar desde el navegador en:
 
 `http://127.0.0.1:5000`
-
----
-
-# Evidencia de Aprendizaje 2 – Diseño del Sistema de Información: Iteración 2
-
-## Descripción
-
-En esta segunda etapa amplié las funcionalidades de Autos Colombia mediante la incorporación de los módulos de gestión de usuarios y gestión de celdas. El objetivo fue complementar las operaciones desarrolladas en la primera iteración y facilitar la administración de la información del parqueadero.
-
-## Funcionalidades incorporadas
-
-**Gestión de usuarios**
-
-- Registro de usuarios con sus datos personales y de contacto.
-- Consulta del listado de usuarios registrados.
-- Edición de la información de los usuarios.
-- Activación y desactivación de usuarios.
-- Validación para evitar el registro de documentos duplicados.
-
-**Gestión de celdas**
-
-- Registro de nuevas celdas.
-- Consulta de las celdas registradas.
-- Identificación de celdas disponibles, ocupadas e inactivas.
-- Activación y desactivación de celdas.
-- Validación para impedir la desactivación de celdas que tengan un vehículo estacionado.
-
-## Actualización de la base de datos
-
-Para esta iteración amplié la estructura de la base de datos `autos_colombia` mediante la incorporación de la tabla `usuarios` y los ajustes necesarios para relacionar los usuarios con los vehículos y administrar el estado de funcionamiento de las celdas.
-
-La base de datos conserva las tablas y funcionalidades desarrolladas durante la primera iteración.
-
-## Diseño y documentación
-
-Como parte de esta etapa también elaboré los siguientes elementos:
-
-- Requisitos funcionales y no funcionales.
-- Historias de usuario y criterios de aceptación.
-- Diagramas UML de casos de uso para la gestión de usuarios y celdas.
-- Diagramas de secuencia correspondientes a las dos iteraciones.
-- Diagrama de componentes del sistema.
-- Mockups de las interfaces de gestión de usuarios y celdas.
-- Plan de pruebas para verificar las nuevas funcionalidades.
-
-## Pruebas realizadas
-
-Se realizaron ocho casos de prueba relacionados con el registro, consulta, edición y cambio de estado de usuarios y celdas. Todas las pruebas obtuvieron resultados aprobados.
-
----
-
-#### Link Video de Sustentación: `https://youtu.be/YIkJbHXBQaw`
-
----
