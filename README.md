@@ -30,6 +30,8 @@ En esta tercera etapa continué ampliando las funcionalidades de Autos Colombia 
 - Consulta de mensualidades pagadas y pendientes.
 - Consulta del historial individual de pagos.
 - Visualización general de los pagos registrados.
+- Registro de mensualidades anticipadas hasta cinco meses después del período actual, siempre que el usuario esté al día.
+- Validación del estado de cuenta antes de permitir pagos anticipados.
 
 ## Actualización de la base de datos
 
@@ -58,6 +60,9 @@ Se realizaron pruebas funcionales para verificar el comportamiento del módulo d
 - Actualización del estado de las mensualidades a pagado.
 - Identificación de mensualidades pendientes de otros usuarios.
 - Consulta del historial individual de pagos.
+- Validación del límite máximo de cinco meses para pagos anticipados.
+- Verificación de que los usuarios con mensualidades pendientes no puedan realizar pagos anticipados.
+- Comprobación del registro de pagos anticipados para usuarios que se encuentran al día.
 
 Las pruebas permitieron comprobar que los pagos quedan asociados al usuario correspondiente y que el sistema diferencia correctamente los períodos pagados de los pendientes.
 
