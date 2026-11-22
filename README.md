@@ -45,8 +45,13 @@ Con esta actualización, la base de datos queda conformada por seis tablas: `usu
 
 Como parte de esta etapa elaboré los siguientes elementos:
 
+- Diagrama de casos de uso para la gestión de pagos.
+- Diagrama de secuencia para la entrada de vehículos.
+- Diagrama de secuencia para la salida de vehículos.
+- Diagrama de secuencia para el registro de usuarios.
 - Diagrama de secuencia para el registro de pagos.
-- Actualización del diagrama de componentes del sistema.
+- Diagrama de componentes del sistema completo.
+- Mockups de las interfaces del módulo de gestión de pagos.
 - Actualización del script SQL de creación de la base de datos.
 - Actualización de la documentación del proyecto.
 
