@@ -69,7 +69,10 @@ Se realizaron pruebas funcionales para verificar el comportamiento del módulo d
 - Verificación de que los usuarios con mensualidades pendientes no puedan realizar pagos anticipados.
 - Comprobación del registro de pagos anticipados para usuarios que se encuentran al día.
 
-Las pruebas permitieron comprobar que los pagos quedan asociados al usuario correspondiente y que el sistema diferencia correctamente los períodos pagados de los pendientes.
+### Las pruebas permitieron comprobar que los pagos quedan asociados al usuario correspondiente y que el sistema diferencia correctamente los períodos pagados de los pendientes.
+---
+
+#### Link Video de Sustentación: ` `
 
 ---
 
