@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block titulo %}Historial de pagos | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Encabezado de la página -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">GESTIÓN DE PAGOS</span>
+        <h1>Historial de pagos</h1>
+        <p>Consulta las mensualidades registradas para este usuario.</p>
+    </div>
+
+    <a href="{{ url_for('pagos') }}" class="boton boton-secundario">
+        Volver a pagos
+    </a>
+</div>
+
+<!-- Información del usuario -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Información del usuario</h2>
+            <p>Datos asociados al historial de mensualidades.</p>
+        </div>
+    </div>
+
+    <div class="grupo-campos">
+        <div class="campo">
+            <label>Documento</label>
+            <input type="text" value="{{ usuario[1] }}" disabled>
+        </div>
+
+        <div class="campo">
+            <label>Nombres</label>
+            <input type="text" value="{{ usuario[2] }}" disabled>
+        </div>
+
+        <div class="campo">
+            <label>Apellidos</label>
+            <input type="text" value="{{ usuario[3] }}" disabled>
+        </div>
+
+        <div class="campo">
+            <label>Teléfono</label>
+            <input
+                type="text"
+                value="{{ usuario[4] or 'No registrado' }}"
+                disabled
+            >
+        </div>
+    </div>
+</div>
+
+<!-- Historial de mensualidades -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Pagos realizados</h2>
+            <p>Relación de las mensualidades registradas.</p>
+        </div>
+
+        <span class="estado estado-activo">
+            {{ historial|length }} pagos registrados
+        </span>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Año</th>
+                    <th>Valor</th>
+                    <th>Método de pago</th>
+                    <th>Fecha de registro</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for pago in historial %}
+                <tr>
+                    <td>{{ pago[0] }}</td>
+                    <td>{{ pago[1] }}</td>
+                    <td>${{ "{:,.0f}".format(pago[2]).replace(",", ".") }}</td>
+                    <td>{{ pago[3] }}</td>
+                    <td>{{ pago[4].strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>
+                        <span class="estado estado-activo">Pagado</span>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 30px;">
+                        Este usuario todavía no tiene pagos registrados.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

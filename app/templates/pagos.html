@@ -1,0 +1,245 @@
+<!-- Utilizar la estructura general del aplicativo -->
+{% extends "base.html" %}
+
+{% block titulo %}Gestión de pagos | Autos Colombia{% endblock %}
+
+{% block contenido %}
+
+<!-- Encabezado de la página -->
+<div class="encabezado-pagina">
+    <div>
+        <span class="etiqueta-seccion">GESTIÓN DE PAGOS</span>
+        <h1>Administración de mensualidades</h1>
+        <p>Registra los pagos y consulta el estado de las mensualidades de los usuarios.</p>
+    </div>
+</div>
+
+<!-- Mostrar el resumen de pagos -->
+<div class="tarjetas">
+    <div class="tarjeta">
+        <span class="tarjeta-icono">$</span>
+        <div class="tarjeta-etiqueta">Usuarios activos</div>
+        <div class="tarjeta-numero">{{ usuarios|length }}</div>
+        <div class="tarjeta-detalle">Usuarios habilitados para pagos</div>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">✓</span>
+        <div class="tarjeta-etiqueta">Pagos registrados</div>
+        <div class="tarjeta-numero">{{ pagos|length }}</div>
+        <div class="tarjeta-detalle">Mensualidades almacenadas</div>
+    </div>
+
+    <div class="tarjeta">
+        <span class="tarjeta-icono">▤</span>
+        <div class="tarjeta-etiqueta">Períodos consultados</div>
+        <div class="tarjeta-numero">{{ mensualidades|length }}</div>
+        <div class="tarjeta-detalle">Estados de mensualidades</div>
+    </div>
+</div>
+
+<!-- Formulario para registrar un pago -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Registrar mensualidad</h2>
+            <p>Selecciona el usuario y los datos correspondientes al pago.</p>
+        </div>
+    </div>
+
+    <form
+        action="{{ url_for('nuevo_pago') }}"
+        method="POST"
+        class="formulario"
+    >
+        <div class="grupo-campos">
+
+            <div class="campo">
+                <label for="id_usuario">Usuario</label>
+                <select name="id_usuario" id="id_usuario" required>
+                    <option value="">Seleccionar usuario</option>
+
+                    {% for usuario in usuarios %}
+                    <option value="{{ usuario[0] }}">
+                        {{ usuario[1] }} - {{ usuario[2] }} {{ usuario[3] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="mes">Mes que se paga</label>
+                <select name="mes" id="mes" required>
+                    <option value="">Seleccionar mes</option>
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="anio">Año</label>
+                <input
+                    type="number"
+                    name="anio"
+                    id="anio"
+                    min="2000"
+                    max="2100"
+                    placeholder="Ejemplo: 2026"
+                    required
+                >
+            </div>
+
+            <div class="campo">
+                <label for="metodo_pago">Método de pago</label>
+                <select name="metodo_pago" id="metodo_pago" required>
+                    <option value="">Seleccionar método</option>
+                    <option value="Efectivo">Efectivo</option>
+                    <option value="Transferencia">Transferencia</option>
+                    <option value="Tarjeta">Tarjeta</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="campo">
+            <label>Valor de la mensualidad</label>
+            <input type="text" value="$150.000 COP" disabled>
+            <span class="ayuda">
+                El valor es fijo y lo asigna automáticamente el sistema.
+            </span>
+        </div>
+
+        <button type="submit" class="boton">
+            Registrar pago
+        </button>
+    </form>
+</div>
+
+<!-- Consultar el estado de las mensualidades -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Estado de mensualidades</h2>
+            <p>Consulta los períodos pagados y pendientes de cada usuario.</p>
+        </div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Usuario</th>
+                    <th>Mes</th>
+                    <th>Año</th>
+                    <th>Estado</th>
+                    <th>Valor</th>
+                    <th>Método de pago</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for mensualidad in mensualidades %}
+                <tr>
+                    <td>{{ mensualidad[1] }}</td>
+                    <td>{{ mensualidad[2] }} {{ mensualidad[3] }}</td>
+                    <td>{{ mensualidad[4] }}</td>
+                    <td>{{ mensualidad[5] }}</td>
+
+                    <td>
+                        {% if mensualidad[6] == 'Pagado' %}
+                            <span class="estado estado-activo">Pagado</span>
+                        {% else %}
+                            <span class="estado estado-finalizado">Pendiente</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if mensualidad[7] %}
+                            ${{ "{:,.0f}".format(mensualidad[7]).replace(",", ".") }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+
+                    <td>{{ mensualidad[8] or '-' }}</td>
+
+                    <td>
+                        <a
+                            href="{{ url_for('historial_pagos', id_usuario=mensualidad[0]) }}"
+                            class="boton boton-secundario"
+                        >
+                            Ver historial
+                        </a>
+                    </td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 30px;">
+                        Todavía no hay mensualidades para consultar.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Consultar los pagos registrados -->
+<div class="panel">
+    <div class="panel-encabezado">
+        <div>
+            <h2>Pagos registrados</h2>
+            <p>Consulta los últimos pagos almacenados en el sistema.</p>
+        </div>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Usuario</th>
+                    <th>Período</th>
+                    <th>Valor</th>
+                    <th>Método</th>
+                    <th>Fecha de registro</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for pago in pagos %}
+                <tr>
+                    <td>{{ pago[0] }}</td>
+                    <td>{{ pago[1] }} {{ pago[2] }}</td>
+                    <td>{{ pago[3] }}/{{ pago[4] }}</td>
+                    <td>${{ "{:,.0f}".format(pago[5]).replace(",", ".") }}</td>
+                    <td>{{ pago[6] }}</td>
+                    <td>{{ pago[7].strftime('%d/%m/%Y %H:%M') }}</td>
+                </tr>
+
+                {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 30px;">
+                        Todavía no hay pagos registrados.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
