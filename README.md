@@ -72,7 +72,7 @@ Se realizaron pruebas funcionales para verificar el comportamiento del módulo d
 ### Las pruebas permitieron comprobar que los pagos quedan asociados al usuario correspondiente y que el sistema diferencia correctamente los períodos pagados de los pendientes.
 ---
 
-#### Link Video de Sustentación: ` `
+#### Link Video de Sustentación: `https://youtu.be/svBk96OTWbM`
 
 ---
 
